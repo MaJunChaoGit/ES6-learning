@@ -1,21 +1,25 @@
   function Promise(fn) {
     var value = null;
     var status = 'pending';
+    var callbacks = [];
 
     this.then = function(callback) {
       if (status === 'fulfilled') {
         value = callback(value);
-        return new Promise(function(resolve, reject) {
-          resolve(value);
-        })
       }
+      callbacks.push(callback);
+      return this;
     }
 
     this.resolve = function(newValue) {
-      status = 'fulfilled'
+      
       if (value !== newValue) value = newValue;
-      // setTimeout(() => {
-      // }, 0);
+      setTimeout(() => {
+        callbacks.forEach(func => {
+          value = func(value);
+        })
+        status = 'fulfilled'
+      }, 0);
     }
 
     fn(this.resolve);
@@ -44,3 +48,11 @@
         return resolve + 1;
       })
     }, 1000)
+
+
+    setTimeout(function() {
+      promise.then(function(resolve) {
+        console.log(resolve);
+        return resolve + 1;
+      })
+    }, 2000)
