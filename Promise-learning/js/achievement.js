@@ -147,12 +147,12 @@ let ref = (value) => {
 }
 
 
-// let oneOneSecondLater = () => {
-//   let result = defer();
-//   setTimeout(() => {
-//     result.resolve(1);
-//   }, 1000);
-//   return result;
-// }
+let oneOneSecondLater = () => {
+  let result = defer();
+  setTimeout(() => {
+    result.resolve(1);
+  }, 1000);
+  return result;
+}
 
-// oneOneSecondLater().then(console.log);
+oneOneSecondLater().then(console.log);
