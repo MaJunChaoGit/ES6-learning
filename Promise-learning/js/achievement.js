@@ -1,4 +1,3 @@
-//加一个Promise练习的网址 https://www.cnblogs.com/XieJunBao/p/6367393.html
 const PENDNG = 0;
 const FULFILLED = 1;
 const REJECTED = 2;;
