@@ -1,9 +1,9 @@
+https://www.cnblogs.com/XieJunBao/p/6367393.html
 const PENDNG = 0;
 const FULFILLED = 1;
 const REJECTED = 2;;
 
 function Promise(fn) {
-  debugger
   // 存储该 Promise 的状态信息
   let state = PENDNG;
   // 存储 FULFILLED 或 REJECTER 时带来的数据
