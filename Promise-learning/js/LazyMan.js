@@ -123,53 +123,68 @@
 //   }, 0);
 // }
 
-var tasks = [];
+// var tasks = [];
 
-function LazyMan(name) {
-  return new _lazyMan(name);
-}
+// function LazyMan(name) {
+//   return new _lazyMan(name);
+// }
 
-function _lazyMan(name) {
-  var that = this;
-  this.next = function() {
-    var fn = tasks.shift();
-    fn && fn();
-  }
+// function _lazyMan(name) {
+//   var that = this;
+//   this.next = function() {
+//     var fn = tasks.shift();
+//     fn && fn();
+//   }
 
-  this.eat = function(food) {
-    tasks.push(() => {
-      console.log(food);
-      this.next();
-    });
-    return this;
-  }
+//   this.eat = function(food) {
+//     tasks.push(() => {
+//       console.log(food);
+//       this.next();
+//     });
+//     return this;
+//   }
 
-  this.sleep = function(time) {
-    tasks.push(() => {
-      setTimeout(function() {
-        console.log('wait' + time + '秒');
-        that.next();
-      }, time * 1000)
-    })
-    return this;
-  }
+//   this.sleep = function(time) {
+//     tasks.push(() => {
+//       setTimeout(function() {
+//         console.log('wait' + time + '秒');
+//         that.next();
+//       }, time * 1000)
+//     })
+//     return this;
+//   }
 
-  this.sleepFirst = function(time) {
-    tasks.unshift(() => {
-      setTimeout(function() {
-        console.log('wait' + time + '秒');
-        that.next();
-      }, time * 1000)
-    });
-    return this;
-  }
+//   this.sleepFirst = function(time) {
+//     tasks.unshift(() => {
+//       setTimeout(function() {
+//         console.log('wait' + time + '秒');
+//         that.next();
+//       }, time * 1000)
+//     });
+//     return this;
+//   }
 
-  tasks.push(function() {
-    console.log(name);
-    that.next();
-  })
+//   tasks.push(function() {
+//     console.log(name);
+//     that.next();
+//   })
 
-  setTimeout(function() {
-    that.next();
-  }, 0);
-}
+//   setTimeout(function() {
+//     that.next();
+//   }, 0);
+// }
+// (function() {
+//   return function() {
+//     return function(x) {
+//       console.log(x);
+//     };
+//   }
+// })()()(1);
+// 
+// 
+// for (var i = 0; i < 5; i++) {
+//   setTimeout(function() {
+//     console.log(i)
+//   }, 0);
+// }
+// 
