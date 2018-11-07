@@ -274,3 +274,27 @@ function doResolve(fn, onFulfilled, onRejected) {
 // 
 
 
+// function TimeOut(time, callback) {
+//   setTimeout(function() {
+//     var a = 1;
+//     console.log(1);
+//     callback && callback(a);
+//   }, time);
+// }
+
+function Timeout(time) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      try {
+        var a = 2;
+        console.log(1);
+        // resolve(a)
+      throw new Error('asdasd');
+      } catch(e) {
+        // statements
+        reject(e);
+      }
+      
+    }, time);
+  });
+}

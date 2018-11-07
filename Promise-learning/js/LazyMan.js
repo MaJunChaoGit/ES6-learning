@@ -70,7 +70,59 @@
 //       console.log(name);
 //     }
 //   }, 0);
+// // }
+// var tasks = [];
+
+// function LazyMan(name) {
+//   return new _lazyMan(name);
 // }
+
+// function _lazyMan(name) {
+//   var that = this;
+
+//   this.next = function() {
+//     var fn = tasks.shift();
+//     fn && fn();
+//   }
+//   this.sleep = function(time) {
+//     var that = this;
+//     tasks.push(function() {
+//       setTimeout(function() {
+//         console.log('Wake up after' + time)
+//         that.next();
+//       }, time * 1000)
+//     });
+//     return this;
+//   }
+
+//   this.eat = function(food) {
+//     var that = this;
+//     tasks.push(function() {
+//       console.log("Eat" + food + "~");
+//       that.next();
+//     })
+//     return this;
+//   }
+
+//   this.sleepFirst = function(time) {
+//     tasks.unshift(function() {
+//       setTimeout(function() {
+//         console.log('Wake up after' + time)
+//         that.next();
+//       }, time * 1000);
+//     })
+//     return this;
+//   }
+//   tasks.push(function() {
+//     console.log(name);
+//     that.next();
+//   });
+
+//   setTimeout(function() {
+//     that.next();
+//   }, 0);
+// }
+
 var tasks = [];
 
 function LazyMan(name) {
@@ -79,44 +131,43 @@ function LazyMan(name) {
 
 function _lazyMan(name) {
   var that = this;
-
   this.next = function() {
     var fn = tasks.shift();
     fn && fn();
   }
+
+  this.eat = function(food) {
+    tasks.push(() => {
+      console.log(food);
+      this.next();
+    });
+    return this;
+  }
+
   this.sleep = function(time) {
-    var that = this;
-    tasks.push(function() {
+    tasks.push(() => {
       setTimeout(function() {
-        console.log('Wake up after' + time)
+        console.log('wait' + time + '秒');
+        that.next();
+      }, time * 1000)
+    })
+    return this;
+  }
+
+  this.sleepFirst = function(time) {
+    tasks.unshift(() => {
+      setTimeout(function() {
+        console.log('wait' + time + '秒');
         that.next();
       }, time * 1000)
     });
     return this;
   }
 
-  this.eat = function(food) {
-    var that = this;
-    tasks.push(function() {
-      console.log("Eat" + food + "~");
-      that.next();
-    })
-    return this;
-  }
-
-  this.sleepFirst = function(time) {
-    tasks.unshift(function() {
-      setTimeout(function() {
-        console.log('Wake up after' + time)
-        that.next();
-      }, time * 1000);
-    })
-    return this;
-  }
   tasks.push(function() {
     console.log(name);
     that.next();
-  });
+  })
 
   setTimeout(function() {
     that.next();
