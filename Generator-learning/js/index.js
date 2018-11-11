@@ -177,3 +177,27 @@ let [x, y] = numbers();
 for (let i of numbers()) {
   console.log(i)
 }
+
+// next() throw() return() 本质上就是把yield的值替换掉
+const gene = function* (x, y) {
+  let result = yield x + y;
+  return result;
+}
+
+const genT = gene(1, 2);
+// genT.next();
+// genT.next(1);
+// 相当于把let result = yield x + y替换成 let result = 1;
+
+// genT.throw(new Error('出错了'));
+// 相当于把let result = yield x + y替换成 let result = new Error('出错了');
+// genT.return(3);
+// 相当于把let result = yield x + y替换成 let result = 3;
+// 
+
+// 作为对象属性的Generator可以简写成这样
+var obj = {
+  * func() {
+    yield 1;
+  }
+}
