@@ -186,4 +186,54 @@
 //   setTimeout(function() {
 //     console.log(i)
 //   }, 0);
-// 做了些牛客网的题目
+
+
+function LazyMan(name) {
+  return new _lazyMan(name);
+}
+
+function _lazyMan(name) {
+  let tasks = [];
+  let self = this;
+  this.eat = function(food) {
+    tasks.push(function() {
+      console.log(`吃${food}`);
+      self.next();
+    })
+    return this;
+  }
+
+  this.sleep = function(time) {
+    tasks.push(function() {
+      setTimeout(function() {
+        console.log(`休息了${time * 1000}毫秒`);
+        self.next();
+      }, time * 1000);
+    });
+    return this;
+  }
+
+  this.sleepFirst = function(time) {
+    tasks.unshift(function() {
+      setTimeout(function() {
+        console.log(`插队休息了${time * 1000}毫秒`);
+        self.next();
+      }, time * 1000)
+    })
+    return this;
+  }
+  this.next = function() {
+    if (tasks.length > 0) {
+      let fn = tasks.shift();
+      fn & fn();
+    }
+  }
+  tasks.push(function() {
+    console.log(`我叫${name}`);
+    self.next();
+  });
+
+  setTimeout(function() {
+    self.next();
+  })
+}

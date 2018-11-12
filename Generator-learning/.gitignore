@@ -1,0 +1,9 @@
+*.sh
+node_modules
+*.md
+*.scss
+*.woff
+*.ttf
+coverage
+lib
+src/Assets
