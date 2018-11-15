@@ -102,3 +102,63 @@ function request(url) {
 
 // var it = ajax('aaa');
 // it.next();
+
+// 编写一个JavaScript的Thunk函数转换器
+var Thunk = function(fn) {
+  return function() {
+    var args = Array.prototype.slice.call(arguments);
+    return function(callback) {
+      args.push(callback);
+      fn.apply(this, args);
+    }
+  }
+}
+
+// Thunkify源码
+var Thunkify = function(fn) {
+  return function() {
+    var args = new Array(arguments.length);
+    var ctx = this;
+    for (var i = 0; i < arguments.length; i++) {
+      args[i] = arguments[i];
+    }
+    return function(done) {
+      var called;
+      args.push(function() {
+        if (called) return;
+        called = true;
+        done.apply(null, arguments);
+      });
+
+      try {
+        fn.apply(ctx, args);
+      } catch(e) {
+        // statements
+        console.log(e);
+      }
+    }
+  }
+}
+
+// 写一个同步自动执行流程的Generator
+function* gen() {}
+
+var g = gen();
+var res = g.next();
+
+while(!res.done) {
+  console.log(res.value);
+  res = g.next();
+}
+
+// 写一个基于Thunkify模块的自动执行的异步Generator流程加载器
+function run(gen) {
+  var g = gen();
+
+  function next(err, data) {
+    var result = g.next();
+    if (result.done) return;
+    result.value(next);
+  }
+  next();
+}
