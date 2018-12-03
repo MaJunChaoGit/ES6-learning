@@ -7,7 +7,7 @@
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
     "watch": "webpack --watch --progress",
-    "server": "webpack-dev-server --hotOnly",
+    "server": "webpack-dev-server --mode=development --config webpack.config.js",
     "start": "webpack-dev-server --open --mode development"
   },
   "keywords": [],
