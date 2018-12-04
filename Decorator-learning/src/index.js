@@ -1,6 +1,5 @@
 // // 修改类的注解
-// import {mixins} from './mixins.js';
-
+import {mixins} from './mixins.js';
 // // 注解如何对类进行修饰
 // @testable
 // class MyTestableClass {
@@ -186,15 +185,104 @@ import {suppressWarnings} from 'core-decorators';
 
 //suppressWarnings会让deprecated修饰器导致的console.warn()
 
-class Person {
-  @deprecate
-  facepalm() {}
+// class Person {
+//   @deprecate
+//   facepalm() {}
 
-  @suppressWarnings
-  facepalmWithoutWarning() {
-    this.facepalm()
-  }
-}
+//   @suppressWarnings
+//   facepalmWithoutWarning() {
+//     this.facepalm()
+//   }
+// }
 
-let person = new Person();
-person.facepalmWithoutWarning();
+// let person = new Person();
+// person.facepalmWithoutWarning();
+
+// 使用注解的方式实现混入类
+// const Foo = {
+//   foo() {
+//     console.log('foo');
+//   }
+// }
+// @mixins(Foo)
+// class MyClassByMix {
+
+// }
+
+// var obj = new MyClassByMix();
+// console.log(obj)
+// obj.foo();
+
+
+// 上述方法会改写类的prototype对象,将会覆盖同名方法,以下继承的方法则不会
+// class MyBaseClass{
+
+// }
+
+// let MyMixin = (superclass) => class extends superclass {
+//   foo() {
+//     console.log('foo')
+//   }
+// }
+// class MyClassByExt extends MyMixin(MyBaseClass){
+
+// }
+// let c = new MyClassByExt();
+
+// c.foo();
+
+// 第三方Trait为我们提供了第三方的混入器
+import { traits, excludes, alias  } from 'traits-decorator';
+// Trait不允许"混入"同名方法
+// class TFoo {
+//   foo() {
+//     console.log('foo1');
+//   }
+// }
+// const TBar = {
+//   foo() {
+//     console.log('foo2');
+//   },
+//   bar() {
+//     console.log('bar');
+//   }
+// }
+// @traits(TFoo, TBar)
+// class MyClassByTat {}
+
+// var myClassByTat = new MyClassByTat()
+// myClassByTat.foo(); // Uncaught Error: Method named: foo is defined twice.
+
+// 其中一种解决方案是排除TBar的foo
+// class TFoo {
+//   foo() { console.log('foo') }
+// }
+
+// const TBar = {
+//   bar() { console.log('bar') },
+//   foo() { console.log('foo') }
+// };
+
+// @traits(TFoo, TBar::excludes('foo')) // ::绑定运算符不管用
+// class MyClassByTat {}
+
+// var myClassByTat = new MyClassByTat()
+// myClassByTat.foo(); 
+
+// 另外一种是给方法起别名
+// class TFoo {
+//   foo() { console.log('foo') }
+// }
+
+// const TBar = {
+//   bar() { console.log('bar') },
+//   foo() { console.log('foo') }
+// };
+
+// @traits(TFoo, TBar::alias({foo: 'aliasFoo'})) // ::绑定运算符不管用
+// class MyClass { }
+
+// let obj = new MyClass();
+// obj.foo() // foo
+// obj.aliasFoo() // foo
+// obj.bar() // bar
