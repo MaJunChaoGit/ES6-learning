@@ -4,11 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production",
-    "watch": "webpack --watch --progress",
-    "server": "webpack-dev-server --mode=development --config webpack.config.js",
-    "start": "webpack-dev-server --open --mode development"
+    "dev": "webpack-dev-server --mode=development --config webpack.config.js"
   },
   "keywords": [],
   "author": "",
