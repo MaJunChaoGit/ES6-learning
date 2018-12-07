@@ -1,5 +1,6 @@
 import * as profile from './profile.js';
-import './main.js';
+// import './main.js';
+import './import-export.js';
 // CommonJS 和 AMD 模块都是在运行时确定模块的依赖关系
 // 前者服务于服务器,后者用于浏览器
 // let { all, any, concat } = require('async');
@@ -18,3 +19,7 @@ import './main.js';
 
 // export 参见 profile.js
 console.log(profile);
+var a = './main.js';
+if (true) {
+  import(a)
+}
