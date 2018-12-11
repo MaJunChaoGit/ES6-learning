@@ -19,6 +19,7 @@ var webpackConfig = {
     path: path.resolve(process.cwd(), './lib'),
     filename: '[name].js',
     sourcePrefix: '',
+    globalObject: 'this',
     chunkFilename: '[name].js',
     publicPath: isProd
       ? './'
@@ -82,6 +83,10 @@ var webpackConfig = {
           limit: 10000,
           name: path.posix.join('static', '[name].[hash:7].[ext]')
         }
+      },
+      {
+        test: /\.worker\.js$/,
+        loader: 'worker-loader'
       }
     ]
   },
