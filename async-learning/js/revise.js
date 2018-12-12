@@ -129,3 +129,17 @@ function chainAnimationsPromise(elem, animations) {
     return ret;
   })
 }
+
+// ---c.async
+async function chainAnimationsPromise(elem, animations) {
+  let ret = null;
+
+  try {
+    for(let anim of animations) {
+      ret = await anim(elem);
+    }
+  } catch(e) {
+
+  }
+  return ret;
+}
