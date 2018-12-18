@@ -83,3 +83,69 @@
 
 // var result = concatenate(Uint8Array, Uint8Array.of(1, 2), Uint8Array.of(3, 4));
 // console.log(result)
+
+// 每一种视图的构造函数，都有一个BYTES_PER_ELEMENT属性
+// 表示这种数据类型占据的字节数
+// Int8Array.BYTES_PER_ELEMENT; 1
+// Uint8Array.BYTES_PER_ELEMENT; 1
+// Uint8ClampedArray.BYTES_PER_ELEMENT; 1
+// Int16Array.BYTES_PER_ELEMENT; 2
+// Uint16Array.BYTES_PER_ELEMENT; 2
+// Int32Array.BYTES_PER_ELEMENT; 4
+// Uint32Array.BYTES_PER_ELEMENT; 4
+// Float32Array.BYTES_PER_ELEMENT; 4
+// Float64Array.BYTES_PER_ELEMENT; 8
+
+// unit8是一个8位视图，而256的二进制是9位的值，这样就会发生溢出
+// 根据视图的规则，只会保留后8位，即最终为0
+// const uint8 = new Uint8Array(1);
+// uint8[0] = 256;
+// console.log(uint8[0]); // 0
+
+// // -1的补码为8个1，根据无符号的8位整数解释就是255
+// uint8[0] = -1;
+// console.log(uint8[0]); // 255
+
+// const int8 = new Int8Array(1);
+
+// int8[0] = 128;
+// console.log(int8[0]); // -128
+
+// int8[0] = -129;
+// console.log(int8[0]); // 127
+
+// // Uint8ClampedArray视图溢出与上面的规则不同，它规定
+// // 凡是发生正向溢出，该值一律等于当前数据类型的最大值，255
+// // 如果发生负溢出，该值一律等于当前数据类型的最小值，0
+// const uint8c = new Uint8ClampedArray(1);
+// uint8c[0] = 256;
+// console.log(uint8c[0]); // 255
+
+// uint8c[0] = -1;
+// console.log(uint8c[0]); // 0
+
+// set方法表示整段内存的复制
+// const a = new Uint8Array(8);
+// const b = new Uint8Array(8);
+// b.set(a);
+
+// // set方法还可以接受第二个参数，表示从b对象的哪一个成员开始复制a对象
+// const a16 = new Uint16Array(8);
+// const b16 = new Uint16Array(10);
+// b16.set(a16, 2);
+
+// subarray方法是对于TypedArray数组的一部分，再建立一个新的视图
+// const a = new Uint16Array(8);
+// const b = a.subarray(2, 3);
+// a.byteLength; // 16
+// b.byteLength; // 2
+
+// TypedArray 数组的所有的构造函数
+// 都有一个静态方法of,用于将参数转为一个TypedArray实例
+// Float32Array.of(0.151, -8, 3.7); // [0.151, -8, 3.7]
+
+// 静态方法TypedArray.from接受一个可遍历的数据结构作为参数
+// Int8Array.of(127, 126, 125).map(x => 2 * x); // -2 -4 -6
+
+// from方法没有发生溢出，说明遍历不是针对原来的8位整数数组
+// Int16Array.from(Int8Array.of(127, 126, 125), x => 2 * x); // 254 252 250

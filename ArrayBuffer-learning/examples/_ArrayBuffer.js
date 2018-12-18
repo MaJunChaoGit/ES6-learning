@@ -53,3 +53,27 @@
 // console.log(ArrayBuffer.isView(slice_buffer)); // false
 // const v = new Int32Array(slice_buffer);
 // console.log(ArrayBuffer.isView(v)); // true
+
+// ArrayBuffer与字符串互相转换
+// function ab2str(buf) {
+//   if (buf && buf.byteLength < 1024) {
+//     return String.fromCharCode.apply(null, new Uint16Array(buf));
+//   }
+//   const bufView = new Uint16Array(buf);
+//   const len = bufView.length;
+//   const bstr = new Array(len);
+
+//   for (let i = 0; i < len; i++) {
+//     bstr[i] = String.fromCharCode.call(null, bufView[i]);
+//   }
+//   return bstr.join('');
+// }
+
+// function str2ab(str) {
+//   const buf = new ArrayBuffer(str.length * 2);
+//   const bufView = new Uint16Array(buf);
+//   for (let i = 0, strLen = str.length; i < strLen; i++) {
+//     bufView[i] = str.charCodeAt(i);
+//   }
+//   return buf;
+// }
